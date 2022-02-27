@@ -26,16 +26,18 @@ class Particle {
         this.width = Math.floor(width);
         this.height = Math.floor(height);
         this.x = this.left + Math.floor(Math.random() * this.width);
-        this.y = this.top + Math.floor(Math.random() * this.height / 1.2);
+        this.y = this.top + Math.floor(Math.random() * this.height / 3);
         this.size = Math.random() * 2.5;
+
     }
 
     draw = () => {
-        this.ctx.beginPath();
-        this.ctx.globalAlpha = 0.5;
-        this.ctx.fillStyle = `rgb(${this.lum}, ${this.lum}, ${this.lum * 1.4})`;
-        this.ctx.arc(this.x, this.y, this.size * (this.lum / 200), 0, Math.PI * 2);
-        this.ctx.fill();
+        //this.ctx.beginPath();
+        this.ctx.globalAlpha = 0.75;
+        this.ctx.fillStyle = `rgb(${this.lum}, ${this.lum}, ${this.lum * 1.8})`;
+        //this.ctx.arc(this.x, this.y, this.size * (this.lum / 200), 0, Math.PI * 2);
+        this.ctx.fillRect(this.x,this.y,this.size,this.size);
+        //this.ctx.fill();
     }
 
     update = () => {
@@ -49,7 +51,7 @@ class Particle {
 }
 
 animate = () => {
-    context.globalAlpha = 0.05;
+    context.globalAlpha = 0.04;
     context.fillStyle = "rgb(0,0,0)";
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
     particles.map(p => {
@@ -61,7 +63,7 @@ animate = () => {
 
 
 
-clickHandler = () => {
+awaitClick = () => {
     document.addEventListener("click", (element) => {
         if(!window.fullScreen){
             document.documentElement.requestFullscreen();
@@ -154,7 +156,7 @@ preprocess = () => {
     imageToLiquify = offscreenContext.getImageData(x, y, finalWidth, finalHeight);
     calculateLuminance(imageToLiquify, finalWidth);
     particles.length = 0;
-    for (let p = 0; p <= 8000; p++) {
+    for (let p = 0; p <= 10000; p++) {
         particles.push(new Particle(context, [x, y, finalWidth, finalHeight]));
     }
     if (!isTriggered) {
@@ -166,5 +168,5 @@ preprocess = () => {
 document.addEventListener("DOMContentLoaded", () => {
     init();
     nextImage();
-    clickHandler();
+    awaitClick();
 })
