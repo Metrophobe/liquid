@@ -1,4 +1,4 @@
-let audio; 
+let audio;
 let canvas;
 let currentImage;
 let offscreen;
@@ -26,17 +26,15 @@ class Particle {
         this.width = Math.floor(width);
         this.height = Math.floor(height);
         this.x = this.left + Math.floor(Math.random() * this.width);
-        this.y = this.top + Math.floor(Math.random() * this.height / 1.2  );
+        this.y = this.top + Math.floor(Math.random() * this.height / 1.2);
         this.size = Math.random() * 2.5;
     }
 
-  
-
     draw = () => {
         this.ctx.beginPath();
-        this.ctx.globalAlpha = 0.3 ;
-        this.ctx.fillStyle = `rgb(${this.lum}, ${this.lum}, ${this.lum * 1.4 })`;
-        this.ctx.arc(this.x, this.y, this.size*(this.lum/200) , 0, Math.PI * 2);
+        this.ctx.globalAlpha = 0.5;
+        this.ctx.fillStyle = `rgb(${this.lum}, ${this.lum}, ${this.lum * 1.4})`;
+        this.ctx.arc(this.x, this.y, this.size * (this.lum / 200), 0, Math.PI * 2);
         this.ctx.fill();
     }
 
@@ -64,13 +62,17 @@ animate = () => {
 
 
 clickHandler = () => {
-    if ("ontouchstart" in document.documentElement)
-    {
-        document.addEventListener("touchstart",() => {nextImage();audio.play();});
-    } else {
-        document.addEventListener("click",() => {nextImage();audio.play();});
-    }
+    document.addEventListener("click", (element) => {
+        if(!window.fullScreen){
+            document.documentElement.requestFullscreen();
+            offscreen.width = canvas.width = window.innerWidth;
+            offscreen.height = canvas.height = window.innerHeight;
+            audio.play();
+        }
+        nextImage();      
+    });
 }
+
 
 
 
@@ -93,7 +95,7 @@ calculateLuminance = (image, width) => {
 
 init = () => {
     //total files in folder
-    totalImages = 28;
+    totalImages = 31;
     //audio - ©Brimsone - Frustration 
     audio = new Audio("./audio/frustration.weba");
     currentImage = 0;
@@ -123,8 +125,8 @@ init = () => {
 nextImage = () => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     offscreenContext.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    source.src = `gallery/${currentImage }.jpg`;
-    currentImage = currentImage < totalImages-1  ? currentImage+1 : 0;
+    source.src = `gallery/${currentImage}.jpg`;
+    currentImage = currentImage < totalImages - 1 ? currentImage + 1 : 0;
 }
 
 preprocess = () => {
@@ -152,7 +154,7 @@ preprocess = () => {
     imageToLiquify = offscreenContext.getImageData(x, y, finalWidth, finalHeight);
     calculateLuminance(imageToLiquify, finalWidth);
     particles.length = 0;
-    for (let p = 0; p <= 7000; p++) {
+    for (let p = 0; p <= 8000; p++) {
         particles.push(new Particle(context, [x, y, finalWidth, finalHeight]));
     }
     if (!isTriggered) {
