@@ -24,7 +24,7 @@ class Particle {
         this.width = Math.floor(width);
         this.height = Math.floor(height);
         this.x = this.left + Math.floor(Math.random() * this.width);
-        this.y = this.top + Math.floor(Math.random() * this.height / 1.2 );
+        this.y = this.top + Math.floor(Math.random() * this.height / 1.2  );
         this.size = Math.random() * 2.5;
     }
 
@@ -61,6 +61,10 @@ animate = () => {
 
 awaitKeypress = () => {
     document.addEventListener("keyup",() => nextImage());
+}
+
+awaitTouch = () => {
+    document.addEventListener("touchstart",() => nextImage());
 }
 
 calculateLuminance = (image, width) => {
@@ -150,4 +154,5 @@ document.addEventListener("DOMContentLoaded", () => {
     init();
     nextImage();
     awaitKeypress();
+    awaitTouch();
 })
