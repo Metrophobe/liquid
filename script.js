@@ -64,7 +64,7 @@ awaitKeypress = () => {
 }
 
 awaitTouch = () => {
-    document.addEventListener("touchstart",() => nextImage());
+    window.addEventListener("touchstart",() => nextImage());
 }
 
 calculateLuminance = (image, width) => {
