@@ -6,6 +6,11 @@
     to   { opacity: 1; }
 }
 
+@keyframes zoom {
+    from {  width:0%; }
+    to { width:100%; }
+}
+
 
 body{
     opacity: 1;
@@ -35,4 +40,8 @@ h2{
     transform: none;
     top:0.5vh;
     left:0.5vw;
+}
+
+canvas{
+    animation: zoom 3s;
 }

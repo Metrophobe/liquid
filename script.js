@@ -1,3 +1,4 @@
+let audio; 
 let canvas;
 let currentImage;
 let offscreen;
@@ -15,6 +16,7 @@ let imageToLiquify;
 let luminance;
 let particles;
 let isTriggered;
+let totalImages;
 
 class Particle {
     constructor(ctx, [left, top, width, height]) {
@@ -28,11 +30,13 @@ class Particle {
         this.size = Math.random() * 2.5;
     }
 
+  
+
     draw = () => {
         this.ctx.beginPath();
         this.ctx.globalAlpha = 0.3 ;
         this.ctx.fillStyle = `rgb(${this.lum}, ${this.lum}, ${this.lum * 1.4 })`;
-        this.ctx.arc(this.x, this.y, this.size*(this.lum/150) , 0, Math.PI * 2);
+        this.ctx.arc(this.x, this.y, this.size*(this.lum/200) , 0, Math.PI * 2);
         this.ctx.fill();
     }
 
@@ -59,12 +63,12 @@ animate = () => {
 
 
 
-awaitKeypress = () => {
+clickHandler = () => {
     if ("ontouchstart" in document.documentElement)
     {
-        document.addEventListener("ontouchstart",() => nextImage());
+        document.addEventListener("touchstart",() => {nextImage();audio.play();});
     } else {
-        document.addEventListener("keyup",() => nextImage());
+        document.addEventListener("click",() => {nextImage();audio.play();});
     }
 }
 
@@ -88,8 +92,12 @@ calculateLuminance = (image, width) => {
 }
 
 init = () => {
+    //total files in folder
+    totalImages = 28;
+    //audio - ©Brimsone - Frustration 
+    audio = new Audio("./audio/frustration.weba");
     currentImage = 0;
-    files = Array.from(Array(21).keys()).map(i => i++);
+    files = Array.from(Array(totalImages).keys()).map(i => i++);
     //onscreen canvas
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
@@ -116,7 +124,7 @@ nextImage = () => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     offscreenContext.clearRect(0, 0, context.canvas.width, context.canvas.height);
     source.src = `gallery/${currentImage }.jpg`;
-    currentImage = currentImage < 20 ? currentImage+1 : 0;
+    currentImage = currentImage < totalImages-1  ? currentImage+1 : 0;
 }
 
 preprocess = () => {
@@ -144,7 +152,7 @@ preprocess = () => {
     imageToLiquify = offscreenContext.getImageData(x, y, finalWidth, finalHeight);
     calculateLuminance(imageToLiquify, finalWidth);
     particles.length = 0;
-    for (let p = 0; p <= 9000; p++) {
+    for (let p = 0; p <= 7000; p++) {
         particles.push(new Particle(context, [x, y, finalWidth, finalHeight]));
     }
     if (!isTriggered) {
@@ -156,5 +164,5 @@ preprocess = () => {
 document.addEventListener("DOMContentLoaded", () => {
     init();
     nextImage();
-    awaitKeypress();
+    clickHandler();
 })
