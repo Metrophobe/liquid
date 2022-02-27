@@ -60,12 +60,15 @@ animate = () => {
 
 
 awaitKeypress = () => {
-    document.addEventListener("keyup",() => nextImage());
+    if ("ontouchstart" in document.documentElement)
+    {
+        document.addEventListener("ontouchstart",() => nextImage());
+    } else {
+        document.addEventListener("keyup",() => nextImage());
+    }
 }
 
-awaitTouch = () => {
-    window.addEventListener("touchstart",() => nextImage());
-}
+
 
 calculateLuminance = (image, width) => {
     width = Math.floor(width);
@@ -154,5 +157,4 @@ document.addEventListener("DOMContentLoaded", () => {
     init();
     nextImage();
     awaitKeypress();
-    awaitTouch();
 })
