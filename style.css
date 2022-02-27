@@ -1,0 +1,38 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
+body{
+    opacity: 1;
+    background-color: #000;
+    color:#09f;
+    animation: fadein 2s;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;;
+}
+
+h1,h2{
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1vh;
+    position: absolute;
+    transform-origin: 20%;
+    margin: 0px;
+    padding: 0px;
+    left:0vw;
+    bottom:2vh;
+    font-size:3vh;
+    font-weight: 100;
+    transform: rotateZ(-90deg);
+}
+
+h2{
+    transform: none;
+    top:0.5vh;
+    left:0.5vw;
+}
